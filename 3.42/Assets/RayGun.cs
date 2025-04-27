@@ -47,6 +47,13 @@ public class RayGun : MonoBehaviour
             // stop the ray
             endPoint = hit.point;
 
+            RagdollActivator activator = hit.transform.GetComponentInParent<RagdollActivator>();
+
+            if (activator)
+            {
+                activator.ActivateRagdoll();
+            }
+
             Quaternion rayImpactRotation = Quaternion.LookRotation(-hit.normal); 
             GameObject rayImpact = Instantiate(rayImpactPrefab, hit.point, rayImpactRotation);
             Destroy(rayImpact, 1);
