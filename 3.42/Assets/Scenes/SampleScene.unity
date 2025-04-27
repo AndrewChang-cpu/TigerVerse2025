@@ -4238,8 +4238,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.059800122
-  m_Center: {x: 0, y: 0.059800122, z: 0}
+  m_Radius: 0.24
+  m_Center: {x: 0, y: 0.12, z: 0.02}
 --- !u!114 &343875734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14442,7 +14442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2b9637269b38d43bde62408dcff540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTimer: 2
+  spawnTimer: 7
   prefabToSpawn: {fileID: 79336560}
   minEdgeDistance: 0.3
   normalOffset: -0.1
