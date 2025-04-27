@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { decode } from 'base64-arraybuffer';
+//import { decode } from 'base64-arraybuffer';
 import Button from "./Button";
 
 interface ImageUploaderProps {

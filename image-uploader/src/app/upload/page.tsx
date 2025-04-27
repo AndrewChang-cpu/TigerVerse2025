@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import ImageUploader from '@/components/ImageUploader';
 import supabase from '@/api/supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function UploadPage() {
+  const router = useRouter();
     const [image, setImage] = useState<File | null>(null);
     const [loading, setLoading] = useState(false)
 
@@ -28,8 +29,10 @@ export default function UploadPage() {
                 .storage
                 .from('images')
                 .upload(fileName, image, {
+                  /*
                   cacheControl: '3600',
-                  upsert: false
+                  upsert: <false></false>*/
+                  contentType: image.type
                 })
       
               if (uploadError) throw uploadError
@@ -41,16 +44,25 @@ export default function UploadPage() {
                 .getPublicUrl(data.path)
       
               if (urlError) throw urlError
+              console.log(publicUrl);
+              // here insert a new row with the url
+              const { data: insertedRow, error: insertError } = await supabase
+                .from('images')
+                .insert([{ 
+                  image_url: publicUrl
+                }])
+                .select()
+                .single();
       
               // 4. inform parent / update UI
               //onFileSelect(publicUrl)
             } catch (err) {
-              console.error('Upload error:', err)
+              //console.error('Upload error:', err)
               alert('Failed to upload image.')
             } finally {
               setLoading(false)
               console.log('success!')
-              Router.push('/gallery');
+              router.push('/gallery');
             }
         }
         uploadImage();
@@ -58,15 +70,21 @@ export default function UploadPage() {
 
 	return (
 		<div className='flex flex-col h-screen justify-center items-center'>
-            <div className='flex flex-col gap-[20px] w-fill outline-white'>
+            <div className='flex flex-col gap-[20px] w-fill '>
                 <h1>Upload pictures of your friends 😈</h1>
-                <ImageUploader onFileSelect={(image: File) => {setImage(image)}}/>
-                <button
-                    className='bg-[#6134eb] w-full text-white rounded-full'
-                    onClick={handleChooseImage}
-                >
-                    Upload Image
-                </button>
+                <div className='flex flex-col justify-center items-center w-full'>
+                  <div className='flex flex-col gap-[25px]'>
+                    <ImageUploader onFileSelect={(image: File) => {setImage(image)}}/>
+                    <button
+                        className='bg-[#6134eb] w-full text-white rounded-full'
+                        onClick={handleChooseImage}
+                    >
+                      <h5 className='font-light'>
+                        Upload Image
+                      </h5>
+                    </button>
+                  </div>
+                </div>
             </div>
 		</div>
 	)

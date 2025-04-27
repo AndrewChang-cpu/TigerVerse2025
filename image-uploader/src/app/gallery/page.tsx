@@ -59,26 +59,28 @@ export default function GalleryPage() {
     return (
         <div className='flex flex-col h-full px-[200px] py-[100px]'>
             <h2>Gallery</h2>
-            <motion.div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-12"
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-          >
-            {images.map((imageUrl, index) => (
-              <motion.div 
-                key={index} 
-                variants={cardVariants}
-                className=""
-              >
-                <img
-                    src={imageUrl}
-                    alt={`image_${index}`}
-					width={200}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+			{images.length > 0 && (
+				<motion.div
+					className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-12"
+					variants={containerVariants}
+					initial="hidden"
+					animate="show"
+				>
+					{images.map((imageUrl, index) => (
+					<motion.div 
+						key={index} 
+						variants={cardVariants}
+						className=""
+					>
+						<img
+							src={imageUrl}
+							alt={`image_${index}`}
+							width={200}
+						/>
+					</motion.div>
+					))}
+				</motion.div>
+			)}
         </div>
     );
 };
