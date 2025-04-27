@@ -71,7 +71,7 @@ export default function UploadPage() {
 	return (
 		<div className='flex flex-col h-screen justify-center items-center'>
             <div className='flex flex-col gap-[20px] w-fill '>
-                <h1>Upload pictures of your friends 😈</h1>
+                <h1>Upload a selfie your friend! 😈</h1>
                     <div className='flex flex-col justify-center items-center w-full'>
                     <div className='flex flex-col gap-[25px]'>
                         <ImageUploader onFileSelect={(image: File) => {setImage(image)}}/>
