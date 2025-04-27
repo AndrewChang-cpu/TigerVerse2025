@@ -59,13 +59,13 @@ export default function Home() {
 							variants={textVariants}
 						>
 							<a
-								className='bg-white rounded-full text-black  px-[20px]'
+								className='bg-white rounded-full text-black  px-[40px]'
 								href='/gallery'
 							>
 								<h5>Gallery</h5>
 							</a>
 							<a
-								className='bg-[#6134eb] rounded-full px-[20px]'
+								className='bg-[#6134eb] rounded-full px-[40px]'
 								href='/upload'
 							>
 								<h5>Upload</h5>
