@@ -16,12 +16,9 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
-      : position error = 24.066919 mm\n\t'mixamorig:LeftLeg' : position error = 6.254919
-      mm\n\t'mixamorig:LeftFoot' : position error = 15.630298 mm\n\t'mixamorig:LeftToeBase'
-      : position error = 25.422029 mm\n"
+    rigImportErrors: "Invalid copied Avatar Rig Configuration:\n\tNo human bone found.
+      Ensure both rig type match\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -879,7 +876,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 867d673c61456454d8a46f397e546840,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 12811a9d3d5534747bc078cb6317bbb3,
     type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
