@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { decode } from 'base64-arraybuffer';
+//import { decode } from 'base64-arraybuffer';
 import Button from "./Button";
 
 interface ImageUploaderProps {
@@ -70,11 +70,17 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
           Drag & drop your image here, or
         </h6>
 
-        <Button
+        {/* <Button
           text="Upload Image"
           onClick={triggerFileInput}
           fillContainer={false}
-        />
+        /> */}
+        <button
+          className=''
+          onClick={triggerFileInput}
+        >
+            Upload Image
+        </button>
 
         <input
           ref={inputRef}
