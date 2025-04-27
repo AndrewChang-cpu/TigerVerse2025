@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Assets",
+    "\\Packages",
+    "\\ProjectSettings",
+    "\\ProjectSettings\\Packages"
   ],
-  "SelectedNode": "\\C:\\Users\\amcxd\\Source\\Repos\\TigerVerse2025",
+  "SelectedNode": "\\TigerVerse2025.sln",
   "PreviewInSolutionExplorer": false
 }
