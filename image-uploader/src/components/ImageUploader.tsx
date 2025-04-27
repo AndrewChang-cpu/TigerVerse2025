@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+'use client';
+
+import { useState, useRef } from 'react';
 import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -17,18 +19,17 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
     height: 100,
     x: 0,
     y: 0,
-    //aspect: 1
   });
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
   const [isCropping, setIsCropping] = useState(false);
-  
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleFile = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Please upload a valid image file.");
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload a valid image file.');
       return;
     }
 
@@ -38,7 +39,6 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
       const url = e.target?.result as string;
       setPreviewSrc(url);
       setFileName(file.name);
-      // We'll delay calling onFileSelect until after cropping
       setIsCropping(true);
     };
     reader.readAsDataURL(file);
@@ -61,7 +61,7 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setDragActive(e.type === "dragenter" || e.type === "dragover");
+    setDragActive(e.type === 'dragenter' || e.type === 'dragover');
   };
 
   const triggerFileInput = () => {
@@ -78,47 +78,55 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
   const generateCroppedImage = async () => {
     if (!imgRef.current || !completedCrop || !canvasRef.current || !originalFile) return;
 
+    const image = imgRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size to crop size
-    canvas.width = completedCrop.width;
-    canvas.height = completedCrop.height;
+    // Calculate scale between displayed image and actual image
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
 
-    // Draw the cropped image onto the canvas
+    // Map crop coordinates to actual image pixels
+    const sx = completedCrop.x * scaleX;
+    const sy = completedCrop.y * scaleY;
+    const sWidth  = completedCrop.width * scaleX;
+    const sHeight = completedCrop.height * scaleY;
+
+    // Resize canvas to match the cropped region
+    canvas.width  = sWidth;
+    canvas.height = sHeight;
+
+    // Draw the cropped image portion onto the canvas
     ctx.drawImage(
-      imgRef.current,
-      completedCrop.x,
-      completedCrop.y,
-      completedCrop.width,
-      completedCrop.height,
+      image,
+      sx,
+      sy,
+      sWidth,
+      sHeight,
       0,
       0,
-      completedCrop.width,
-      completedCrop.height
+      sWidth,
+      sHeight
     );
 
-    // Convert canvas to blob
+    // Convert canvas to blob and then to File
     const blob = await new Promise<Blob>((resolve) => {
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob);
+      canvas.toBlob((b) => {
+        if (b) resolve(b);
       }, originalFile.type);
     });
 
-    // Create a new file from the blob
     const croppedFile = new File([blob], originalFile.name, {
       type: originalFile.type,
       lastModified: Date.now(),
     });
-
-    // Create URL for preview
     const croppedUrl = URL.createObjectURL(blob);
-    
-    // Call the onFileSelect with the cropped file
+
+    // Notify parent with the cropped file and preview
     onFileSelect(croppedFile, croppedUrl);
-    
-    // Update UI state
+
+    // Update preview and exit cropping mode
     setPreviewSrc(croppedUrl);
     setIsCropping(false);
   };
@@ -132,7 +140,6 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
           onChange={(c) => setCrop(c)}
           onComplete={(c) => setCompletedCrop(c)}
           aspect={1}
-          circularCrop={false}
         >
           <img
             ref={imgRef}
@@ -167,12 +174,12 @@ export default function ImageUploader({ onFileSelect }: ImageUploaderProps) {
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        className={`
-          flex flex-col justify-center items-center
+        className={
+          `flex flex-col justify-center items-center
           border-2 border-dashed rounded-2xl p-8
           transition-colors duration-200
-          ${dragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"}
-        `}
+          ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`
+        }
       >
         <h6 className="text-center text-gray-600 mb-4">
           Drag & drop your image here, or

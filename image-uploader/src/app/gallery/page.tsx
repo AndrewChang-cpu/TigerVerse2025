@@ -29,7 +29,8 @@ export default function GalleryPage() {
 		const fetchImages = async () => {
 			const { data, error } = await supabase
 				.from('images')
-				.select('*');
+				.select('*')
+				.order('created_at', { ascending: false });
 			if (error) {
 				console.error('Error fetching images:', error.message);
 			} else if (data) {

@@ -1,6 +1,6 @@
 export default function Header() {
     return (
-        <header className='flex absolute justify-evenly w-full'>
+        <header className='flex absolute justify-center w-full gap-[20px]'>
             <div>
                 logo
             </div>
