@@ -27,10 +27,10 @@ public class RagdollActivator : MonoBehaviour
     {
         if (isRagdoll) return; // Already activated
 
-        if (collision.relativeVelocity.magnitude > 0.5f) // Hit hard enough
-        {
+        //if (collision.relativeVelocity.magnitude > 0.5f) // Hit hard enough
+        //{
             ActivateRagdoll();
-        }
+        //}
     }
 
     public void ActivateRagdoll()
