@@ -24,3 +24,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@layer base {
+  h1 { font-size: 89.76px; /* or: @apply text-5xl; */ }
+  h2 { font-size: 67.34px; /* or: @apply text-4xl; */ }
+  h3 { font-size: 50.52px; /* or: @apply text-3xl; */ }
+  h4 { font-size: 37.9px; /* or: @apply text-2xl; */ }
+  h5 { font-size: 28.43px; /* or: @apply text-xl;  */ }
+  h6 { font-size: 16px; /* or: @apply text-lg;  */ }
+}
