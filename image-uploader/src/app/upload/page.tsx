@@ -12,6 +12,7 @@ export default function UploadPage() {
     const [loading, setLoading] = useState(false)
 
     const handleChooseImage = () => {
+
         const uploadImage = async () => {
             if (!image) {
               alert('No image selected')
@@ -49,24 +50,32 @@ export default function UploadPage() {
               const { data: insertedRow, error: insertError } = await supabase
                 .from('images')
                 .insert([{ 
-                  image_url: `https://qoxgoiqvsrahxvwjeely.supabase.co/storage/v1/object/public/images//${data.path}`
+                  image_url: `https://qoxgoiqvsrahxvwjeely.supabase.co/storage/v1/object/public/images/${data.path}`
                 }])
                 .select()
                 .single();
       
-              // 4. inform parent / update UI
-              //onFileSelect(publicUrl)
+              // set selected image to this new image_url
+                const { data: updateData, error: updateError } = await supabase
+                    .from('global')
+                    .update({ selected_image_url: `https://qoxgoiqvsrahxvwjeely.supabase.co/storage/v1/object/public/images/${data.path}` })
+                    .eq('id', 1);
+                if (updateError) {
+                    console.error(updateError);
+                }
             } catch (err) {
               //console.error('Upload error:', err)
               setLoading(false);
               alert('Failed to upload image.')
             } finally {
-              router.push('/gallery');
+              router.push('/new-image');
               setLoading(false)
             }
         }
         uploadImage();
     };
+
+
 
 	return (
 		<div className='flex flex-col h-screen justify-center items-center'>

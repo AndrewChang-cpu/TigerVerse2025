@@ -1,11 +1,11 @@
 export default function Header() {
     return (
-        <header className='flex justify-evenly'>
+        <header className='flex absolute justify-evenly w-full'>
             <div>
                 logo
             </div>
             <div>
-                buttons
+                Logo
             </div>
             <div>
                 buttons here or middle
