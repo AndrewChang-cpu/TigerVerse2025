@@ -51,7 +51,7 @@ export default function Home() {
 						</motion.h1>
 						
 						<motion.h5 variants={textVariants}>
-							Fight clones of your friends in an all out brawl
+							Upload pictures of your friends and fight them in an arcade adventure!
 						</motion.h5>
 						
 						<motion.div 
