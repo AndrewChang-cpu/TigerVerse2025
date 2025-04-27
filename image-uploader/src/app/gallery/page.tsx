@@ -4,24 +4,6 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import supabase from '@/api/supabaseClient';
 
-// list of strings
-const dummyImages = [
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-    '/maanav.png',
-];
 
 const containerVariants = {
     hidden: {}, // we don’t need to animate the container itself
@@ -40,6 +22,7 @@ const cardVariants = {
 
 export default function GalleryPage() {
 	const [images, setImages] = useState<string[]>([]);
+	const [selectedImage, setSelectedImage] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
@@ -55,8 +38,34 @@ export default function GalleryPage() {
 				setLoading(false)
 			}
 		};
+		const fetchSelectedImage = async () => {
+			const { data: globalData, error: globalError } = await supabase
+				.from('global')
+				.select('selected_image_url')
+				.single();
+			if (globalError) {
+				console.error(globalError);
+			} else {
+				setSelectedImage(globalData.selected_image_url);
+			}
+		}
 		fetchImages();
-	}, []) 
+		fetchSelectedImage();
+	}, []);
+
+	const onSelect = (newUrl: string) => {
+		setSelectedImage(newUrl);
+		const updateSelectedImage = async () => {
+			const { data: updateData, error: updateError } = await supabase
+				.from('global')
+				.update({ selected_image_url: newUrl })
+				.eq('id', 1);
+			if (updateError) {
+				console.error(updateError);
+			}
+		};
+		updateSelectedImage();
+	};
 
     return (
 		<>
@@ -69,7 +78,7 @@ export default function GalleryPage() {
 					className='gap-[5px]'
 				>
 					<h2>Gallery</h2>
-					<h5>Try these images out in the VR game itself!</h5>
+					<h5>Choose your enemy!</h5>
 				</motion.div>
 				{images.length > 0 && (
 					<motion.div
@@ -84,11 +93,16 @@ export default function GalleryPage() {
 							variants={cardVariants}
 							className=""
 						>
-							<img
-								src={imageUrl}
-								alt={`image_${index}`}
-								width={200}
-							/>
+							<button 
+								className={`flex justify-center items-center px-[8px] py-[8px] border-[10px] ${imageUrl === selectedImage ? 'border-[#6124eb]' : 'border-[#6024eb00]'} rounded-lg`}
+								onClick={() => onSelect(imageUrl)}
+							>
+								<img
+									src={imageUrl}
+									alt={`image_${index}`}
+									width={200}
+								/>
+							</button>
 						</motion.div>
 						))}
 					</motion.div>
